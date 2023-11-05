@@ -19,10 +19,10 @@ TB = "\t"
 CR = "\r"
 
 # SVG file content
-FOOTBALL_SVG = Path("football.svg").read_text()
+FOOTBALL_SVG = Path(f"{Path(__file__).parent}/football.svg").read_text()
 
 # Help file content
-HELP = Path("help.txt").read_text()
+HELP = Path(f"{Path(__file__).parent}/help.txt").read_text()
 
 
 class JSONEncoderPlus(json.JSONEncoder):
