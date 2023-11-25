@@ -1,27 +1,18 @@
-name: Python application test with Github Actions
+name: Application test with Python 3.11
 
 on: [push]
 
 jobs:
-    build:
-
-        runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python 3.11
-        uses: actions/setup-python@v1
-        with:
-            python-version: 3.11
-    - name: Install dependencies
-        run: |
-            make install
-    - name: Test with pytest
-        run: |
-            make test
-    - name: Lint with flake8
-        run: |
-            make lint
-    - name: Format code with black
-        run: |
-            make format
+  steps:
+  - uses: actions/checkout@v4
+  - uses: actions/setup-python@v4
+    with:
+      python-version: '3.11' 
+  - run: |
+      make install
+  - run: |
+      make test
+  - run: |
+      make lint
+  - run: |
+      make format
