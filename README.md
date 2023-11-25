@@ -1,4 +1,6 @@
-[![Python 3.10 ](https://github.com/kyoobit/mock_http_origin/actions/workflows/python3.10.yaml/badge.svg)](https://github.com/kyoobit/mock_http_origin/actions/workflows/python3.10.yaml)
+[![Python 3.10](https://github.com/kyoobit/mock_http_origin/actions/workflows/python3.10.yaml/badge.svg)](https://github.com/kyoobit/mock_http_origin/actions/workflows/python3.10.yaml)
+[![Python 3.11](https://github.com/kyoobit/mock_http_origin/actions/workflows/python3.11.yaml/badge.svg)](https://github.com/kyoobit/mock_http_origin/actions/workflows/python3.11.yaml)
+[![Python 3.12](https://github.com/kyoobit/mock_http_origin/actions/workflows/python3.12.yaml/badge.svg)](https://github.com/kyoobit/mock_http_origin/actions/workflows/python3.12.yaml)
 
 # Mock HTTP Origin
 
