@@ -1,18 +1,28 @@
-name: Application test with Python 3.11
+name: Application test with Python
 
 on: [push]
 
 jobs:
-  steps:
-  - uses: actions/checkout@v4
-  - uses: actions/setup-python@v4
-    with:
-      python-version: '3.11' 
-  - run: |
-      make install
-  - run: |
-      make test
-  - run: |
-      make lint
-  - run: |
-      make format
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Display Python version
+        run: python -c "import sys; print(sys.version)"
+      - name: Install application dependencies
+        run: make install
+      - name: Test application functionality
+        run: make test
+      - name: Lint application files
+        run: make lint
+      - name: Format application files
+        run: make format
