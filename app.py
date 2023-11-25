@@ -103,7 +103,7 @@ class RepeaterHandler(tornado.web.RequestHandler):
     def content_encoding(
         self,
         content: str,
-        content_as_json: dict = {},
+        content_as_json: dict = None,
         add_headers_only: bool = False,
         **kwargs,
     ):
@@ -139,6 +139,10 @@ class RepeaterHandler(tornado.web.RequestHandler):
         # Use the URL query parameter value ahead of the header value
         accept_encoding = from_query_param or from_ae_header
         logging.debug(f"{name} - accept_encoding: {accept_encoding!r}")
+
+        # Initialize content_as_json as needed
+        if content_as_json is None:
+            content_as_json = {}
 
         # Catch no encoding required
         if not accept_encoding:
@@ -887,7 +891,9 @@ class RepeaterHandler(tornado.web.RequestHandler):
         logging.debug(f"{name} - content {type(content)}: length={len(content)!r}")
 
         # Include encoding response headers in the content as requested
-        content, content_as_json = self.content_encoding(content=content, add_headers_only=True)
+        content, content_as_json = self.content_encoding(
+            content=content, add_headers_only=True
+        )
         logging.debug(
             f"{name} - content {type(content)}: \
             length={len(content)!r}"
@@ -907,7 +913,9 @@ class RepeaterHandler(tornado.web.RequestHandler):
         )
 
         # Encode the content as requested
-        content, content_as_json = self.content_encoding(content=content, content_as_json=content_as_json)
+        content, content_as_json = self.content_encoding(
+            content=content, content_as_json=content_as_json
+        )
         logging.debug(f"{name} - content {type(content)}: length={len(content)!r}")
         logging.debug(
             f"{name} - content_as_json {type(content_as_json)}: length={len(content_as_json or '')!r}"
@@ -951,10 +959,11 @@ class RepeaterHandler(tornado.web.RequestHandler):
                 self.write(content)
 
 
-def main(*args, **kwargs):
-    """Run a Tornado application server"""
-    name = "main"
-    logging.debug(f"{name} - *args: {args!r}")
+def make_app(**kwargs):
+    """Return a Tornado application instance"""
+    # tornado.web.Application settings
+    # www.tornadoweb.org/en/stable/web.html#tornado.web.Application.settings
+    name = "make_app"
     logging.debug(f"{name} - **kwargs: {kwargs!r}")
 
     # tornado.web.Application routes
@@ -975,10 +984,24 @@ def main(*args, **kwargs):
         debug=kwargs.get("debug", False),
         compress_response=kwargs.get("compress_response", False),
         allow_ipv6=kwargs.get("allow_ipv6", True),
-        name=kwargs.get("name"),
+        name=kwargs.get("name", "Python/Tornado"),
         proxied=kwargs.get("proxied", False),
         version=kwargs.get("version", "0.0.0a"),
     )
+    logging.debug(f"{name} - tornado.web.Application app: {app!r}")
+
+    return app
+
+
+def main(*args, **kwargs):
+    """Run a Tornado application server"""
+    name = "main"
+    logging.debug(f"{name} - *args: {args!r}")
+    logging.debug(f"{name} - **kwargs: {kwargs!r}")
+
+    # tornado.web.Application settings
+    # www.tornadoweb.org/en/stable/web.html#tornado.web.Application.settings
+    app = make_app(**kwargs)
     logging.debug(f"{name} - tornado.web.Application app: {app!r}")
 
     # tornado.httpserver.HTTPServer
