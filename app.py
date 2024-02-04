@@ -636,8 +636,7 @@ class RepeaterHandler(tornado.web.RequestHandler):
             # Include a leading separator
             content.append(separator)
             # Include the time of the request per this moment
-            # TODO: rm utcnow, deprecated in Python 3.12
-            now = str(datetime.datetime.utcnow().isoformat()).rsplit(".", 1)[0]
+            now = str(datetime.datetime.now(datetime.timezone.utc).isoformat()).rsplit(".", 1)[0]
             content.append(
                 f"# Headers received and returned for this request at: {now} UTC"
             )
